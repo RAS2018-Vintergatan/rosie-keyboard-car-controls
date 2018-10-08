@@ -76,16 +76,16 @@ void sendControllInput(const char& controlCode){
     float angularVel = 0.0;
 
     if(controlCode&FORWARD){
-	linearVel += 0.5;
+	linearVel += 0.05;
     }
     if(controlCode&BACKWARD){
-	linearVel -= 0.5;
+	linearVel -= 0.05;
     }
     if(controlCode&LEFT){
-	angularVel += 3.14;
+	angularVel += 3.14/4;
     }
     if(controlCode&RIGHT){
-	angularVel -= 3.14;
+	angularVel -= 3.14/4;
     }
 
     geometry_msgs::Twist msg;
@@ -95,6 +95,7 @@ void sendControllInput(const char& controlCode){
 }
 
 int oldKeyCode = 0;
+char lastControllerInput = 0;
 int main(int argc, char **argv){
     ros::init(argc, argv, "rosie_keyboard_controls");
 
@@ -129,10 +130,12 @@ int main(int argc, char **argv){
 	if(outputKeyCode == key_D)
 	    controllerInput = controllerInput|RIGHT;
 
-	sendControllInput(controllerInput);
+	if(controllerInput != lastControllerInput)
+		sendControllInput(controllerInput);
         ros::spinOnce();
         loop_rate.sleep();
 
 	oldKeyCode = newKeyCode;
+	lastControllerInput = controllerInput;
     }
 }

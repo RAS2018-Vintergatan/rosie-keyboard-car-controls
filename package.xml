@@ -1,5 +1,5 @@
 <package>
- <name>rosie_keyboard_controls</name>
+ <name>rosie_keyboard_car_controls</name>
   <version>0.1.0</version>
   <description>
     Motor controller.
